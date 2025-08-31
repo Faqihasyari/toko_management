@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Services;
 
+use App\Repositories\CategoryRepository;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryService
 {
@@ -31,6 +33,45 @@ class CategoryService
         }
         return $this->categoryRepository->create($data);
     }
+
+    public function update(int $id, array $data)
+    {
+        $fields = ['id', 'photo'];
+
+        $category = $this->categoryRepository->getById($id, $fields);
+
+        if (isset($data['photo']) && $data['photo'] instanceof UploadedFile) {
+            if (!empty($category->photo)) {
+                $this->deletePhoto($category->photo);
+            }
+
+            $data['photo'] = $this->uploadPhoto($data['photo']);
+        }
+
+        return $this->categoryRepository->update($id, $data);
+    }
+
+    public function delete(int $id)
+    {
+        $fields = ['id', 'photo'];
+
+        $category = $this->categoryRepository->getById($id, $fields);
+
+        if ($category->photo) {
+            $this->deletePhoto($category->photo);
+        }
+
+        return $this->categoryRepository->delete($id);
+    }
+
+    private function deletePhoto(string $photoPath)
+    {
+        $relativePath = 'categories/' . basename($photoPath);
+        if (Storage::disk('public')->exists($relativePath)) {
+            Storage::disk('public')->delete($relativePath);
+        }
+    }
+
     private function UploadPhoto(UploadedFile $photo)
     {
         return $photo->store('categories', 'public');
