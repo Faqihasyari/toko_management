@@ -46,4 +46,35 @@ class CategoryController
         $category = $this->categoryService->create($request->validated());
         return response()->json(new CategoryResource($category), 201);
     }
+
+    public function update(CategoryRequest $request, int $id)
+    {
+        try {
+            $category = $this->categoryService->update($id, $request->validated());
+
+            return response()->json([
+                'message' => 'category updated successfully',
+                'data' => new CategoryResource($category)
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'category not found',
+            ], 404);
+        }
+    }
+
+    public function destroy(int $id)
+    {
+        try {
+            $this->categoryService->delete($id);
+
+            return response()->json([
+                'message' => 'category deleted successfully'
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'category not found',
+            ], 404);
+        }
+    }
 }
