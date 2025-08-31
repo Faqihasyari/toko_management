@@ -22,7 +22,7 @@ class CategoryController
     public function index()
     {
         $field = ['id', 'name', 'photo', 'tagline'];
-        $categories = $this->categoryService->getAll($field);
+        $categories = $this->categoryService->getAll($field ?: ['*']);
         return response()->json(CategoryResource::collection($categories));
     }
 

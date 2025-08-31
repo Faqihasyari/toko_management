@@ -78,6 +78,19 @@ class WarehouseService
         return $warehouse->products()->where('product_id', $productId)->first();
     }
 
+    public function delete(int $id)
+    {
+        $fields = ['*'];
+
+        $warehouse = $this->warehouseRepository->getById($id, $fields);
+
+        if ($warehouse->photo) {
+            $this->deletePhoto($warehouse->photo);
+        }
+
+        return $this->warehouseRepository->delete($id);
+    }
+
 
     private function deletePhoto(string $photoPath)
     {
