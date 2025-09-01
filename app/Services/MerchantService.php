@@ -23,7 +23,7 @@ class MerchantService
 
     public function getById(int $id, array $fields)
     {
-        return $this->merchantRepository->getById($id, $fields ?? ['id, name']);
+        return $this->merchantRepository->getById($id, $fields ?? ['*']);
     }
 
     public function create(array $data)
@@ -49,6 +49,24 @@ class MerchantService
         }
 
         return $this->merchantRepository->update($id, $data);
+    }
+
+    public function delete(int $id)
+    {
+        $fields = ['*'];
+        $merchant = $this->merchantRepository->getById($id, $fields);
+
+        if ($merchant->photo) {
+            $this->deletePhoto($merchant->photo);
+        }
+
+        $this->merchantRepository->delete($id);
+    }
+
+    public function getByKeeperId(int $keeperId)
+    {
+        $fields = ['*'];
+        return $this->merchantRepository->getByKeeperId($keeperId, $fields);
     }
 
     private function uploadPhoto(UploadedFile $photo): string
