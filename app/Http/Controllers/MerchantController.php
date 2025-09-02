@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MerchantRequest;
 use App\Http\Resources\MerchantResource;
 use App\Services\MerchantService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -39,5 +40,9 @@ class MerchantController
         }
     }
 
-    
+    public function store(MerchantRequest $request)
+    {
+        $merchant = $this->merchantService->create($request->validated());
+        return response()->json(new MerchantResource($merchant), 201);
+    }
 }
