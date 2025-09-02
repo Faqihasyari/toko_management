@@ -38,4 +38,6 @@ class MerchantController
             ], 404);
         }
     }
+
+    
 }
