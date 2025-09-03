@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MerchantRequest;
 use App\Http\Resources\MerchantResource;
 use App\Services\MerchantService;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
@@ -68,6 +69,21 @@ class MerchantController
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'message' => 'merchant not found',
+            ], 404);
+        }
+    }
+
+    public function getMyMerchantProfile()
+    {
+        $userId = Auth::id();
+
+        try {
+            $merchant = $this->merchantService->getByKeeperId($userId);
+
+            return response()->json(new MerchantResource($merchant));
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Merchant not found for this user.'
             ], 404);
         }
     }
