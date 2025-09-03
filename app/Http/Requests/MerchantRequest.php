@@ -23,6 +23,11 @@ class MerchantRequest extends FormRequest
     {
         return [
             //
+            'name' => 'required|string|max:255|unique:merchants,name,' . $this->route('merchant'),
+            'address' => 'required|string',
+            'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'phone' => 'required|string|max:15',
+            'keeper_id' => 'required|exists:users,id'
         ];
     }
 }

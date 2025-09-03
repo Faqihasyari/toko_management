@@ -45,4 +45,30 @@ class MerchantController
         $merchant = $this->merchantService->create($request->validated());
         return response()->json(new MerchantResource($merchant), 201);
     }
+
+    public function update(MerchantRequest $request, int $id)
+    {
+        try {
+            $merchant = $this->merchantService->update($id, $request->validated());
+            return response()->json(new MerchantResource($merchant));
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'merchant not found',
+            ], 404);
+        }
+    }
+
+    public function destroy(int $id)
+    {
+        try {
+            $this->merchantService->delete($id);
+            return response()->json([
+                'message' => 'merchant deleted successfully'
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'merchant not found',
+            ], 404);
+        }
+    }
 }
