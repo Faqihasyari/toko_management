@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Merchant;
 use App\Repositories\MerchantProductRepository;
 use App\Repositories\WarehouseProductRepository;
 use Illuminate\Support\Facades\DB;
@@ -58,12 +57,25 @@ class MerchantProductService
     }
 
     public function removeProductFromMerchant(int $merchantId, int $productId)
-    {
-        $merchant = Merchant::findOrFail($merchantId);
+{
+    // $merchant = Merchant::findOrFail($merchantId);
+    $merchant = $this->merchantRepository->getById($merchantId, $fields ?? ['*']);
 
-        $exists = $this->merchantProductRepository->getByMerchantAndProduct($merchantId, $productId);
-
-        if (!exists) {
-        }
+    if (!$merchant) {
+        throw ValidationException::withMessages([
+            'product' => ['merchant not found.']
+        ]);
     }
+
+    $exists = $this->merchantProductRepository->getByMerchantAndProduct($merchantId, $productId);
+
+    if (!$exists) {
+        throw ValidationException::withMessages([
+            'product' => ['Product not assigned to this merchant.']
+        ]);
+    }
+
+    $merchant->products()->detach($productId);
+}
+
 }
