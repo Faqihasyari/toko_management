@@ -42,6 +42,13 @@ class MerchantProductService
                     'product' => ['Product already exist in this merchant.']
                 ]);
             }
+
+            //kurangi stock pada warehouse
+            $this->warehouseProductRepository->updateStock(
+                $data['warehouse_id'],
+                $data['product_id'],
+                $warehouseProduct->stock - $data['stock']
+            );
         });
     }
 }
