@@ -7,16 +7,20 @@ use App\Repositories\MerchantProductRepository;
 use App\Repositories\WarehouseProductRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use MerchantRepository;
 
 class MerchantProductService
 {
+    private MerchantRepository $merchantRepository;
+
     private MerchantProductRepository $merchantProductRepository;
     private WarehouseProductRepository $warehouseProductRepository;
 
-    public function __construct(MerchantProductRepository $merchantProductRepository, WarehouseProductRepository $warehouseProductRepository)
+    public function __construct(MerchantProductRepository $merchantProductRepository, WarehouseProductRepository $warehouseProductRepository, MerchantRepository $merchantRepository)
     {
         $this->merchantProductRepository = $merchantProductRepository;
         $this->warehouseProductRepository = $warehouseProductRepository;
+        $this->merchantRepository = $merchantRepository;
     }
 
     public function assignProductToMerchant(array $data)
@@ -60,7 +64,6 @@ class MerchantProductService
         $exists = $this->merchantProductRepository->getByMerchantAndProduct($merchantId, $productId);
 
         if (!exists) {
-            
         }
     }
 }
