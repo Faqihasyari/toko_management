@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Merchant;
 use App\Repositories\MerchantProductRepository;
 use App\Repositories\WarehouseProductRepository;
 use Illuminate\Support\Facades\DB;
@@ -50,5 +51,16 @@ class MerchantProductService
                 $warehouseProduct->stock - $data['stock']
             );
         });
+    }
+
+    public function removeProductFromMerchant(int $merchantId, int $productId)
+    {
+        $merchant = Merchant::findOrFail($merchantId);
+
+        $exists = $this->merchantProductRepository->getByMerchantAndProduct($merchantId, $productId);
+
+        if (!exists) {
+            
+        }
     }
 }
