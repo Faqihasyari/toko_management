@@ -2,19 +2,17 @@
 
 namespace App\Services;
 
-use App\Models\MerchantProduct;
+use App\Repositories\MerchantProductRepository;
+use App\Repositories\WarehouseProductRepository;
 
 class MerchantProductService
 {
-    public function create(array $data)
-    {
-        return MerchantProduct::create($data);
-    }
+    private MerchantProductRepository $merchantProductRepository;
+    private WarehouseProductRepository $warehouseProductRepository;
 
-    public function getByMerchantAndProduct(int $merchantId, int $productId)
+    public function __construct(MerchantProductRepository $merchantProductRepository, WarehouseProductRepository $warehouseProductRepository)
     {
-        return MerchantProduct::where('merchant_id', $merchantId)
-            ->where('product_id', $productId)
-            ->first();
+        $this->merchantProductRepository = $merchantProductRepository;
+        $this->warehouseProductRepository = $warehouseProductRepository;
     }
 }
