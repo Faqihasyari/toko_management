@@ -53,29 +53,35 @@ class MerchantProductService
                 $data['product_id'],
                 $warehouseProduct->stock - $data['stock']
             );
+
+            return $this->merchantProductRepository->create([
+                'warehouse_id' => $data['warehouse_id'],
+                'merchant_id' => $data['merchant_id'],
+                'product_id' => $data['product_id'],
+                'stock' => $data['stock'],
+            ]);
         });
     }
 
     public function removeProductFromMerchant(int $merchantId, int $productId)
-{
-    // $merchant = Merchant::findOrFail($merchantId);
-    $merchant = $this->merchantRepository->getById($merchantId, $fields ?? ['*']);
+    {
+        // $merchant = Merchant::findOrFail($merchantId);
+        $merchant = $this->merchantRepository->getById($merchantId, $fields ?? ['*']);
 
-    if (!$merchant) {
-        throw ValidationException::withMessages([
-            'product' => ['merchant not found.']
-        ]);
+        if (!$merchant) {
+            throw ValidationException::withMessages([
+                'product' => ['merchant not found.']
+            ]);
+        }
+
+        $exists = $this->merchantProductRepository->getByMerchantAndProduct($merchantId, $productId);
+
+        if (!$exists) {
+            throw ValidationException::withMessages([
+                'product' => ['Product not assigned to this merchant.']
+            ]);
+        }
+
+        $merchant->products()->detach($productId);
     }
-
-    $exists = $this->merchantProductRepository->getByMerchantAndProduct($merchantId, $productId);
-
-    if (!$exists) {
-        throw ValidationException::withMessages([
-            'product' => ['Product not assigned to this merchant.']
-        ]);
-    }
-
-    $merchant->products()->detach($productId);
-}
-
 }
