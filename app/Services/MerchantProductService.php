@@ -88,7 +88,20 @@ class MerchantProductService
             if ($newStock > $currentStock) {
                 $diff = $newStock - $currentStock;
 
-                
+                $warehouseProduct = $this->warehouseProductRepository
+                    ->getByWarehouseAndProduct($warehouseId, $productId);
+
+                if (!$warehouseProduct || $warehouseProduct->stock < $diff) {
+                    throw ValidationException::withMessages([
+                        'stock' => ['Insufficient stock in warehouse.']
+                    ]);
+                }
+
+                $this->warehouseProductRepository->updateStock(
+                    $warehouseId,
+                    $productId,
+                    $warehouseProduct->stock - $diff
+                );
             }
 
             if ($newStock < $currentStock) {
