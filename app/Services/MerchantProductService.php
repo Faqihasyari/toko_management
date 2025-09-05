@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\MerchantProductRepository;
 use App\Repositories\WarehouseProductRepository;
+use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use MerchantRepository;
@@ -62,6 +63,40 @@ class MerchantProductService
             ]);
         });
     }
+
+
+    public function updateStock(int $merchantId, int $productId, int $newStock, int $warehouseId)
+    {
+        return DB::transaction(function () use ($merchantId, $productId, $newStock, $warehouseId) {
+            $existing = $this->merchantProductRepository->getByMerchantAndProduct($merchantId, $productId);
+
+            if (!$existing) {
+                throw ValidationException::withMessages([
+                    'product' => ['Product not assigned to this merchant.']
+                ]);
+            }
+
+            if (!$warehouseId) {
+                throw ValidationException::withMessages([
+                    'warehouse_id' => ['Warehouse ID is required when increasing stock.']
+                ]);
+            }
+
+            // stok produk tersebut yang ada di merchant
+            $currentStock = $existing->stock;
+
+            if ($newStock > $currentStock) {
+                $diff = $newStock - $currentStock;
+
+                
+            }
+
+            if ($newStock < $currentStock) {
+                // logika ketika stok berkurang
+            }
+        });
+    }
+
 
     public function removeProductFromMerchant(int $merchantId, int $productId)
     {
