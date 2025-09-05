@@ -110,11 +110,17 @@ class MerchantProductService
                 $warehouseProduct = $this->warehouseProductRepository
                     ->getByWarehouseAndProduct($warehouseId, $productId);
 
-                    if (!$warehouseProduct) {
-                        throw ValidationException::withMessages([
-                            'warehouse' => ['Product not found in warehouse.']
-                        ]);
-                    }
+                if (!$warehouseProduct) {
+                    throw ValidationException::withMessages([
+                        'warehouse' => ['Product not found in warehouse.']
+                    ]);
+                }
+
+                $this->warehouseProductRepository->updateStock(
+                    $warehouseId,
+                    $productId,
+                    $warehouseProduct->stock + $diff
+                );
             }
         });
     }
