@@ -105,7 +105,10 @@ class MerchantProductService
             }
 
             if ($newStock < $currentStock) {
-                // logika ketika stok berkurang
+                $diff = $currentStock - $newStock;
+
+                $warehouseProduct = $this->warehouseProductRepository
+                    ->getByWarehouseAndProduct($warehouseId, $productId);
             }
         });
     }
