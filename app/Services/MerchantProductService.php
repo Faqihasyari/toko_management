@@ -122,6 +122,8 @@ class MerchantProductService
                     $warehouseProduct->stock + $diff
                 );
             }
+
+            return $this->merchantProductRepository->updateStock($merchantId, $productId, $newStock);
         });
     }
 
