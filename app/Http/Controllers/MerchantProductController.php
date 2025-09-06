@@ -39,12 +39,20 @@ class MerchantProductController
             $merchantId,
             $productId,
             $validated['stock'],
-            $validated['warehouse_id'] ?? null
+            $validated['warehouse_id']
         );
 
         return response()->json([
             'message' => 'Stock updated successfully',
             'data' => $merchantProduct,
+        ]);
+    }
+
+    public function destroy(int $merchant, int $product){
+        $this->merchantProductService->removeProductFromMerchant($merchant, $product);
+
+        return response()->json([
+            'massage' => 'Product detached from merchant successfully',
         ]);
     }
 }
