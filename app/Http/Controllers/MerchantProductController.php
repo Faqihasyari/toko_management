@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MerchantProductRequest;
+use App\Http\Requests\MerchantProductUpdateRequest;
 use App\Services\MerchantProductService;
 use Illuminate\Http\Request;
 
@@ -28,5 +29,22 @@ class MerchantProductController
             'message' => 'Product assigned to merchant successfully',
             'data' => $merchantProduct,
         ], 201);
+    }
+
+    public function update(MerchantProductUpdateRequest $request, int $merchantId, int $productId)
+    {
+        $validated = $request->validated();
+
+        $merchantProduct = $this->merchantProductService->updateStock(
+            $merchantId,
+            $productId,
+            $validated['stock'],
+            $validated['warehouse_id'] ?? null
+        );
+
+        return response()->json([
+            'message' => 'Stock updated successfully',
+            'data' => $merchantProduct,
+        ]);
     }
 }
