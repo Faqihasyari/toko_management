@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\ProductRepository;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class ProductService
 {
@@ -35,6 +36,14 @@ class ProductService
 
     private function uploadPhoto(UploadedFile $photo)
     {
-        return $photo->store()
+        return $photo->store('products', 'public');
+    }
+
+    private function deletePhoto(string $photoPath)
+    {
+        $relativePath = 'products/' . basename($photoPath);
+        if (Storage::disk('public')->exists($relativePath)) {
+            Storage::disk('public')->delete($relativePath);
+        }
     }
 }
