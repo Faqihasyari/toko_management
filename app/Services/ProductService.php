@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\ProductRepository;
+use Illuminate\Http\UploadedFile;
 
 class ProductService
 {
@@ -13,7 +14,7 @@ class ProductService
         $this->productRepository = $productRepository;
     }
 
-    public function getAll(int $id, array $fields)
+    public function getAll(array $fields)
     {
         return $this->productRepository->getAll($fields);
     }
@@ -21,5 +22,19 @@ class ProductService
     public function getById(int $id, array $fields)
     {
         return $this->productRepository->getById($id, $fields ?? ['*']);
+    }
+
+    public function create(array $data)
+    {
+        if (isset($data['thumbnail']) && $data['thumbnail'] instanceof UploadedFile) {
+            $data['thumbnail'] = $this->uploadPhoto($data['thumbnail']);
+        }
+
+        return $this->productRepository->create($data);
+    }
+
+    private function uploadPhoto(UploadedFile $photo)
+    {
+        return $photo->store()
     }
 }
