@@ -39,6 +39,18 @@ class ProductService
         return $photo->store('products', 'public');
     }
 
+    public function delete(int $id)
+    {
+        $fields = ['*'];
+        $product = $this->productRepository->getById($id, $fields);
+
+        if ($product->thumbnail) {
+            $this->deletePhoto($product->thumbnail);
+        }
+
+        $this->productRepository->delete($id);
+    }
+
     private function deletePhoto(string $photoPath)
     {
         $relativePath = 'products/' . basename($photoPath);
