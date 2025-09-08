@@ -37,6 +37,36 @@ class UserService
         return $this->userRepository->create($data);
     }
 
+    public function update(int $id, array $data)
+    {
+        $fields = ['*'];
+        $user = $this->userRepository->getById($id, $fields);
+
+        if (isset($data['photo']) && $data['photo'] instanceof UploadedFile) {
+            if (!empty($user->photo)) {
+                $this->deletePhoto($user->photo);
+            }
+            $data['photo'] = $this->uploadPhoto($data['photo']);
+        }
+
+        return $this->userRepository->update($id, $data);
+    }
+
+    public function delete(int $id, array $data)
+{
+    $fields = ['*'];
+    $user = $this->userRepository->getById($id, $fields);
+
+    if ($user->photo) {
+        $this->deletePhoto($user->photo);
+    }
+
+
+    return $this->userRepository->delete($id);
+}
+
+
+
     private function uploadPhoto(UploadedFile $photo)
     {
         return $photo->store('users', 'public');
