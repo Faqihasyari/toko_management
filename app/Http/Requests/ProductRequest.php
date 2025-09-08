@@ -23,6 +23,12 @@ class ProductRequest extends FormRequest
     {
         return [
             //
+            'name' => 'required|string|max:255|unique:products,name,' . $this->route('product'),
+            'thumbnail' => 'required|image|mimes:png,jpg,jpeg|max:2048',
+            'about' => 'required|string',
+            'price' => 'required|integer|min:0',
+            'category_id' => 'required|exists:categories,id',
+            'is_popular' => 'boolean',
         ];
     }
 }

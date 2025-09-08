@@ -44,4 +44,17 @@ class ProductController
         $product = $this->productService->create($request->validated());
         return response()->json(new ProductResource($product), 201);
     }
+
+    public function update(ProductRequest $request, int $id)
+    {
+        try {
+            $product = $this->productService->update($id, $request->validated());
+
+            return response()->json(new ProductResource($product));
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'massage' => 'product not found',
+            ], 404);
+        }
+    }
 }

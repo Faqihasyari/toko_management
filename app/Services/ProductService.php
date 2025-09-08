@@ -34,6 +34,21 @@ class ProductService
         return $this->productRepository->create($data);
     }
 
+    public function update(int $id, array $data)
+    {
+        $fields = ['*'];
+        $product = $this->productRepository->getById($id, $fields);
+
+        if (isset($data['thumbnail']) && $data['thumbnail'] instanceof UploadedFile) {
+            if (!empty($product->thumbnail)) {
+                $this->deletePhoto($product->thumbnail);
+            }
+            $data['thumbnail'] = $this->uploadPhoto($data['thumbnail']);
+        }
+
+        return $this->productRepository->update($id, $data);
+    }
+
     private function uploadPhoto(UploadedFile $photo)
     {
         return $photo->store('products', 'public');
