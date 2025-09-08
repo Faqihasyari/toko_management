@@ -26,6 +26,17 @@ class UserService
         return $this->userRepository->getById($id, $fields ?? ['*']);
     }
 
+    public function create(array $data)
+    {
+        $data['password'] = bcrypt($data['password']);
+
+        if (isset($data['photo']) && $data['photo'] instanceof UploadedFile) {
+            $data['photo'] = $this->uploadPhoto($data['photo']);
+        }
+
+        return $this->userRepository->create($data);
+    }
+
     private function uploadPhoto(UploadedFile $photo)
     {
         return $photo->store('users', 'public');
