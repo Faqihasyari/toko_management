@@ -57,4 +57,18 @@ class ProductController
             ], 404);
         }
     }
+
+    public function destroy(int $id)
+    {
+        try {
+            $this->productService->delete($id);
+            return response()->json([
+                'massage' => 'product deleted successfully'
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'massage' => 'product not found',
+            ], 404);
+        }
+    }
 }
