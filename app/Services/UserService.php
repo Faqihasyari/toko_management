@@ -52,7 +52,7 @@ class UserService
         return $this->userRepository->update($id, $data);
     }
 
-    public function delete(int $id, array $data)
+    public function delete(int $id)
 {
     $fields = ['*'];
     $user = $this->userRepository->getById($id, $fields);

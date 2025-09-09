@@ -43,4 +43,10 @@ class UserController extends Controller
         $user = $this->userService->update($id, $request->validated());
         return response()->json(new UserResource($user));
     }
+
+    public function destroy(int $id)
+    {
+        $this->userService->delete($id);
+        return response()->json(['message' => 'User deleted successfully']);
+    }
 }

@@ -26,8 +26,8 @@ class UserRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $this->route('user'),
             'password' => $this->isMethod('post') ? 'required|string|min:8' : 'nullable|string|min:8',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'phone' => 'nullable|string|max:15',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'phone' => 'required|string|max:15',
 
         ];
     }
