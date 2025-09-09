@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -28,6 +29,18 @@ class UserController extends Controller
     {
         $fields = ['id', 'name', 'email', 'photo', 'phone'];
         $user = $this->userService->getById($id, $fields ?: ['*']);
+        return response()->json(new UserResource($user));
+    }
+
+    public function store(UserRequest $request)
+    {
+        $user = $this->userService->create($request->validated());
+        return response()->json(new UserResource($user), 201);
+    }
+
+    public function update(UserRequest $request, int $id)
+    {
+        $user = $this->userService->update($id, $request->validated());
         return response()->json(new UserResource($user));
     }
 }
