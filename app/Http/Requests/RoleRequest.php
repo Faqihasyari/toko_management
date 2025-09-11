@@ -11,7 +11,7 @@ class RoleRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,6 +23,7 @@ class RoleRequest extends FormRequest
     {
         return [
             //
+            'name' => 'required|string|max:255|unique:roles,name,' . $this->route('role')
         ];
     }
 }
