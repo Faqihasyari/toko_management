@@ -20,4 +20,19 @@ class RoleService
     {
         return $this->roleRepository->getById($id, $fields ?? ['*']);
     }
+
+    public function create(array $data)
+    {
+        return $this->roleRepository->create($data);
+    }
+
+    public function update(int $id, array $data)
+    {
+        return $this->roleRepository->update($id, $data);
+    }
+
+    public function delete(int $id)
+    {
+        return $this->roleRepository->delete($id);
+    }
 }
