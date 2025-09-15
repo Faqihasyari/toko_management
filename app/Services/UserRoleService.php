@@ -12,4 +12,19 @@ class UserRoleService
     {
         $this->userRoleRepository = $userRoleRepository;
     }
+
+    public function assignRole(int $userId, int $roleId)
+    {
+        return $this->userRoleRepository->assignRoleToUser($userId, $roleId);
+    }
+
+    public function removeRole(int $userId, int $roleId)
+    {
+        return $this->userRoleRepository->removeRoleFromUser($userId, $roleId);
+    }
+
+    public function listUserRoles(int $userId)
+    {
+        return $this->userRoleRepository->getUserRoles($userId);
+    }
 }
