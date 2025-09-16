@@ -11,7 +11,7 @@ class TransactionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,6 +23,13 @@ class TransactionRequest extends FormRequest
     {
         return [
             //
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'merchant_id' => 'required|exists:merchants,id',
+            'products' => 'required|array|min:1', // Products must be an array
+            'products.*.product_id' => 'required|exists:products,id',
+            'products.*.quantity' => 'required|integer|min:1',
+
         ];
     }
 }
