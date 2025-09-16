@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TransactionRequest;
 use App\Http\Resources\TransactionResource;
 use App\Services\TransactionService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class TransactionController
@@ -33,5 +34,32 @@ class TransactionController
             'massage' => 'Transaction recorded successfully',
             'data' => $transactions,
         ], 201);
+    }
+
+    public function show(int $id)
+    {
+        try {
+            $fields = ['*'];
+            $transaction = $this->transactionService->getTransactionById($id, $fields);
+            return response()->json(new TransactionResource($transaction));
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'transaction not found',
+            ], 404);
+        }
+    }
+
+    public function getTransactionsByMerchant()
+    {
+        $user = auth()->user();
+
+        if (!$user || !$user->merchant) {
+            return response()->json(['message' => 'No merchant assigned'], 403);
+        }
+
+        $merchantId = $user->merchant->id;
+        $transactions = $this->transactionService->getTransactionsByMerchant($merchantId);
+
+        return response()->json($transactions);
     }
 }
