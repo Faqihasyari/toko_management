@@ -26,5 +26,8 @@ class UserRoleSeeder extends Seeder
         foreach ($permissions as $permissionsName) {
             Permission::firstOrCreate(['name' => $permissionsName]);
         }
+
+        $managerRole = Role::where('name', 'manager')->first();
+        $managerRole->givePermissionTo($permissions);
     }
 }
