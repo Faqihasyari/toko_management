@@ -13,5 +13,6 @@ class UserRoleSeeder extends Seeder
     public function run(): void
     {
         //
+        $roles = ['manager', 'keeper', 'customer'];
     }
 }
