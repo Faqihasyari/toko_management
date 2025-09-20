@@ -46,7 +46,7 @@ class WarehouseService
                 $this->deletePhoto($category->photo);
             }
 
-            $data['photo'] = $this->uploadPhoto($data['photo']);
+            $data['photo'] = $this->UploadPhoto($data['photo']);
         }
 
         return $this->warehouseRepository->update($id, $data);

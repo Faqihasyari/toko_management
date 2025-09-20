@@ -22,8 +22,8 @@ class WarehouseController
     public function index()
     {
         $field = ['id', 'name', 'photo'];
-        $warehouse = $this->warehouseService->getAll($field ?: ['*']);
-        return response()->json(WarehouseResource::collection($warehouse));
+        $warehouses = $this->warehouseService->getAll($field ?: ['*']);
+        return response()->json(WarehouseResource::collection($warehouses));
     }
 
     public function show(int $id)
