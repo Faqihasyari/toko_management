@@ -16,7 +16,7 @@ class WarehouseController
 
     public function __construct(WarehouseService $warehouseService)
     {
-        $this->$warehouseService = $warehouseService;
+        $this->warehouseService = $warehouseService;
     }
 
     public function index()
