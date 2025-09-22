@@ -1,6 +1,8 @@
 <?php
 
+namespace App\Repositories;
 use App\Models\Merchant;
+
 
 class MerchantRepository
 {

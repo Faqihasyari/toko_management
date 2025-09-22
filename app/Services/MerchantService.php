@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\Merchant;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use MerchantRepository;
+use App\Repositories\MerchantRepository;
 
 class MerchantService
 {
