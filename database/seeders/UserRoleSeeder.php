@@ -32,14 +32,16 @@ class UserRoleSeeder extends Seeder
         $managerRole = Role::where('name', 'manager')->first();
         $managerRole->givePermissionTo($permissions);
 
-        $user = User::factory()->create([
-            'name' => ucfirst($roleName) . ' User', // manager user
-            'email' => $roleName . '@example.com',
-            'phone' => fake()->phoneNumber(),
-            'photo' => fake()->imageUrl(200, 200, 'people', true, 'profile'),
-            'password' => Hash::make('password123'), // Default password
-        ]);
+        foreach ($roles as $roleName) {
 
-        $user->assignRole($roleName);
+            $user = User::factory()->create([
+                'name' => ucfirst($roleName) . ' User', // manager user
+                'email' => $roleName . '@example.com',
+                'phone' => fake()->phoneNumber(),
+                'photo' => fake()->imageUrl(200, 200, 'people', true, 'profile'),
+                'password' => Hash::make('password123'), // Default password
+            ]);
+            $user->assignRole($roleName);
+        }
     }
 }
