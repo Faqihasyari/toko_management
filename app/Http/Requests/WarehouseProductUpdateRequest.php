@@ -11,7 +11,7 @@ class WarehouseProductUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,6 +23,7 @@ class WarehouseProductUpdateRequest extends FormRequest
     {
         return [
             //
+            'stock' => 'required|integer|min:0',
         ];
     }
 }
