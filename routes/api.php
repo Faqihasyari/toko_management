@@ -21,3 +21,7 @@ Route::apiResource('merchants', MerchantController::class);
 Route::post('warehouses/{warehouse}/products', [WarehouseProductController::class, 'attach']);
 Route::delete('warehouses/{warehouse}/products/{product}', [WarehouseProductController::class, 'detach']);
 Route::put('warehouses/{warehouse}/products/{product}', [WarehouseProductController::class, 'update']);
+
+Route::post('merchants/{merchant}/products', [MerchantProductController::class, 'store']);
+Route::put('merchants/{merchant}/products/{product}', [MerchantProductController::class, 'update']);
+Route::delete('merchants/{merchant}/products/{product}', [MerchantProductController::class, 'destroy']);
