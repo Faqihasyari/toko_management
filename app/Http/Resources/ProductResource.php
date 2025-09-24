@@ -23,7 +23,15 @@ class ProductResource extends JsonResource
             'is_popular' => $this->is_popular,
             'category' => new CategoryResource($this->whenLoaded('category')),
 
-            
+            'pivot' => $this->whenPivotLoaded('warehouse_products', function () {
+                return [
+                    'warehouse_id' => $this->pivot->warehouse_id,
+                    'product_id'   => $this->pivot->product_id,
+                    'stock'        => $this->pivot->stock,
+                    'created_at'   => $this->pivot->created_at,
+                    'updated_at'   => $this->pivot->updated_at,
+                ];
+            }),
         ];
     }
 }
