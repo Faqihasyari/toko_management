@@ -23,7 +23,7 @@ class MerchantProductUpdateRequest extends FormRequest
     {
         return [
             //
-            'warehouse_id' => ['required', 'exists:warehouse,id'],
+            'warehouse_id' => ['required', 'exists:warehouses,id'],
             'stock' => 'required|integer|min:0'
         ];
     }

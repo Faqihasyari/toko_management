@@ -34,4 +34,11 @@ class MerchantProductRepository
 
         return $merchantProduct;
     }
+
+    public function getByWarehouseAndProduct($warehouseId, $productId)
+    {
+        return \App\Models\WarehouseProduct::where('warehouse_id', $warehouseId)
+            ->where('product_id', $productId)
+            ->first();
+    }
 }

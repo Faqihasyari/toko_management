@@ -7,7 +7,7 @@ use App\Repositories\WarehouseProductRepository;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use MerchantRepository;
+use App\Repositories\MerchantRepository;
 
 class MerchantProductService
 {
@@ -42,27 +42,33 @@ class MerchantProductService
                 $data['product_id']
             );
 
-            if ($existingProduct) {
-                throw ValidationException::withMessages([
-                    'product' => ['Product already exist in this merchant.']
-                ]);
-            }
-
-            //kurangi stock pada warehouse
+            // kurangi stock pada warehouse
             $this->warehouseProductRepository->updateStock(
                 $data['warehouse_id'],
                 $data['product_id'],
                 $warehouseProduct->stock - $data['stock']
             );
 
+            if ($existingProduct) {
+                // update stok merchant langsung
+                $existingProduct->update([
+                    'stock' => $existingProduct->stock + $data['stock'],
+                ]);
+
+                return $existingProduct;
+            }
+
+            // kalau belum ada → buat baru
             return $this->merchantProductRepository->create([
                 'warehouse_id' => $data['warehouse_id'],
                 'merchant_id' => $data['merchant_id'],
-                'product_id' => $data['product_id'],
-                'stock' => $data['stock'],
+                'product_id'  => $data['product_id'],
+                'stock'       => $data['stock'],
             ]);
         });
     }
+
+
 
 
     public function updateStock(int $merchantId, int $productId, int $newStock, int $warehouseId)
@@ -131,7 +137,7 @@ class MerchantProductService
     public function removeProductFromMerchant(int $merchantId, int $productId)
     {
         // $merchant = Merchant::findOrFail($merchantId);
-        $merchant = $this->merchantRepository->getById($merchantId, $fields ?? ['*']);
+        $merchant = $this->merchantRepository->getById($merchantId, ['*']);
 
         if (!$merchant) {
             throw ValidationException::withMessages([

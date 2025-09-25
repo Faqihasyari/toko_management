@@ -48,7 +48,8 @@ class MerchantProductController
         ]);
     }
 
-    public function destroy(int $merchant, int $product){
+    public function destroy(int $merchant, int $product)
+    {
         $this->merchantProductService->removeProductFromMerchant($merchant, $product);
 
         return response()->json([

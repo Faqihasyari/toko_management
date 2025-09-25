@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MerchantController;
+use App\Http\Controllers\MerchantProductController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\WarehouseProductController;
@@ -22,6 +23,6 @@ Route::post('warehouses/{warehouse}/products', [WarehouseProductController::clas
 Route::delete('warehouses/{warehouse}/products/{product}', [WarehouseProductController::class, 'detach']);
 Route::put('warehouses/{warehouse}/products/{product}', [WarehouseProductController::class, 'update']);
 
-Route::post('merchants/{merchant}/products', [MerchantProductController::class, 'store']);
+Route::post('/merchants/{merchant}/products', [MerchantProductController::class, 'store']);
 Route::put('merchants/{merchant}/products/{product}', [MerchantProductController::class, 'update']);
 Route::delete('merchants/{merchant}/products/{product}', [MerchantProductController::class, 'destroy']);
