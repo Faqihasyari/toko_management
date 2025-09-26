@@ -42,6 +42,12 @@ class MerchantProductService
                 $data['product_id']
             );
 
+            if ($existingProduct) {
+                throw ValidationException::withMessages([
+                    'product' => ['Product already exist for this merchant. Please use update stock instead.']
+                ]);
+            }
+
             // kurangi stock pada warehouse
             $this->warehouseProductRepository->updateStock(
                 $data['warehouse_id'],
@@ -49,24 +55,16 @@ class MerchantProductService
                 $warehouseProduct->stock - $data['stock']
             );
 
-            if ($existingProduct) {
-                // update stok merchant langsung
-                $existingProduct->update([
-                    'stock' => $existingProduct->stock + $data['stock'],
-                ]);
-
-                return $existingProduct;
-            }
-
             // kalau belum ada → buat baru
             return $this->merchantProductRepository->create([
                 'warehouse_id' => $data['warehouse_id'],
-                'merchant_id' => $data['merchant_id'],
-                'product_id'  => $data['product_id'],
-                'stock'       => $data['stock'],
+                'merchant_id'  => $data['merchant_id'],
+                'product_id'   => $data['product_id'],
+                'stock'        => $data['stock'],
             ]);
         });
     }
+
 
 
 
