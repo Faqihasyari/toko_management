@@ -8,7 +8,7 @@ class RoleRepository
 {
     public function getAll(array $fields)
     {
-        return Role::select($fields)->latest()->paginate(50);
+        return Role::select($fields)->latest()->get();
     }
 
     public function getById(int $id, array $fields)
