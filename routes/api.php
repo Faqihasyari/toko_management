@@ -17,7 +17,8 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource('categories', CategoryController::class);
 
-
+Route::apiResource('users', UserController::class);
+Route::apiResource('roles', RoleController::class);
 
 
 Route::apiResource('products', ProductController::class);
