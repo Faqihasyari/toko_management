@@ -6,6 +6,7 @@ use App\Http\Controllers\MerchantProductController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\WarehouseProductController;
 use Illuminate\Http\Request;
@@ -16,6 +17,8 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::apiResource('categories', CategoryController::class);
+
+Route::post('users/roles', [UserRoleController::class, 'assignRole']);
 
 Route::apiResource('users', UserController::class);
 Route::apiResource('roles', RoleController::class);
