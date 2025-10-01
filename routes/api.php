@@ -5,6 +5,7 @@ use App\Http\Controllers\MerchantController;
 use App\Http\Controllers\MerchantProductController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\WarehouseController;
@@ -37,3 +38,4 @@ Route::put('merchants/{merchant}/products/{product}', [MerchantProductController
 Route::delete('merchants/{merchant}/products/{product}', [MerchantProductController::class, 'destroy']);
 
 Route::get('my-merchant', [MerchantController::class, 'getMyMerchantProfile']);
+Route::get('/my-merchant/transactions', [TransactionController::class, 'getTransactionsByMerchant']);

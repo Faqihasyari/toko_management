@@ -6,7 +6,7 @@ use App\Http\Requests\MerchantRequest;
 
 use App\Http\Resources\MerchantResource;
 use App\Services\MerchantService;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
@@ -77,6 +77,12 @@ class MerchantController
     public function getMyMerchantProfile()
     {
         $userId = Auth::id();
+
+        if (!$userId) {
+            return response()->json([
+                'message' => 'No Auth Available'
+            ], 404);
+        }
 
         try {
             $merchant = $this->merchantService->getByKeeperId($userId);

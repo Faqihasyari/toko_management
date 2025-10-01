@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\Transaction;
 use App\Models\TransactionProduct;
 
-class TransactionRepositor
+class TransactionRepository
 {
     public function getAll(array $fields)
     {

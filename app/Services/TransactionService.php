@@ -3,22 +3,22 @@
 namespace App\Services;
 
 use App\Repositories\MerchantProductRepository;
+use App\Repositories\MerchantRepository;
 use App\Repositories\ProductRepository;
-use App\Repositories\TransactionRepositor;
+use App\Repositories\TransactionRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use MerchantRepository;
 
 class TransactionService
 {
-    private TransactionRepositor $transactionRepository;
+    private TransactionRepository $transactionRepository;
     private MerchantProductRepository $merchantProductRepository;
     private ProductRepository $productRepository;
     private MerchantRepository $merchantRepository;
 
     public function __construct(
-        TransactionRepositor $transactionRepository,
+        TransactionRepository $transactionRepository,
         MerchantProductRepository $merchantProductRepository,
         ProductRepository $productRepository,
         MerchantRepository $merchantRepository
