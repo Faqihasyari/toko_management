@@ -35,3 +35,5 @@ Route::put('warehouses/{warehouse}/products/{product}', [WarehouseProductControl
 Route::post('/merchants/{merchant}/products', [MerchantProductController::class, 'store']);
 Route::put('merchants/{merchant}/products/{product}', [MerchantProductController::class, 'update']);
 Route::delete('merchants/{merchant}/products/{product}', [MerchantProductController::class, 'destroy']);
+
+Route::get('my-merchant', [MerchantController::class, 'getMyMerchantProfile']);
