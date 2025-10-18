@@ -21,3 +21,10 @@ Di dalamnya terdapat sistem **warehouse**, **merchant**, serta fitur **login den
 - [Composer](https://getcomposer.org/)  
 
 ---
+
+## 🚀 Cara Menjalankan Proyek
+
+1. Clone repository:
+   ```bash
+   git clone git@github.com:Faqihasyari/toko_management.git
+   cd toko_management
