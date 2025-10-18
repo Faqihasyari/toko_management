@@ -14,3 +14,12 @@ Di dalamnya terdapat sistem **warehouse**, **merchant**, serta fitur **login den
 - 📊 **Dashboard & Laporan** — tampilkan data stok, aktivitas, dan transaksi dengan rapi.  
 
 ---
+## ⚙️ Teknologi yang Digunakan
+
+- [Laravel](https://laravel.com/) 11.x  
+- [MySQL](https://www.mysql.com/)  
+- [Blade Template](https://laravel.com/docs/blade)  
+- [Bootstrap / Tailwind (opsional, tergantung implementasi kamu)]  
+- [Composer](https://getcomposer.org/)  
+
+---
